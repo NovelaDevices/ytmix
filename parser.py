@@ -46,11 +46,12 @@ def parse_description(description_path: Path):
 
         # very naive artist split (optional, best-effort only)
         artist = None
+
+        # Only split on LAST " - " (this matches your dataset structure)
         if " - " in title:
-            parts = title.split(" - ", 1)
-            if len(parts) == 2:
-                title = parts[1].strip()
-                artist = parts[0].strip()
+            left, right = title.rsplit(" - ", 1)
+            title = left.strip()
+            artist = right.strip()
 
         tracks.append(
             {
