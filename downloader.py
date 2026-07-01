@@ -69,3 +69,5 @@ def normalize_downloads(output_dir: Path) -> None:
     if thumb:
         suffix = thumb.suffix
         thumb.rename(output_dir / f"thumbnail{suffix}")
+
+normalize_downloads(output_dir)
