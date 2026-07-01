@@ -27,6 +27,7 @@ def parse_description(description_path: Path):
     - extracts timestamp lines only
     - ignores everything else
     - returns structured track list
+    title = re.sub(r"^\s*[—\-–]\s*", "", title)
     """
 
     tracks = []
@@ -42,7 +43,6 @@ def parse_description(description_path: Path):
             continue
 
         raw_ts = match.group("raw")
-        title = re.sub(r"^\s*[—\-–]\s*", "", title)
         title = match.group("title").strip().lstrip("]- ").strip()
 
         # very naive artist split (optional, best-effort only)
