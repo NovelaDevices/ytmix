@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 from urllib.parse import urlparse
 from ytmix.downloader import download_youtube_assets
-
+from ytmix.parser import parse_description, write_tracks_json
 
 YOUTUBE_REGEX = re.compile(
     r"(https?://)?(www\.)?(youtube\.com|youtu\.be)/.+"
@@ -76,6 +76,22 @@ def main():
 
     print("\nPhase 1 complete.")
     print(f"Assets stored in: {project_dir / 'source'}")
+    # -------------------
+    # Phase 2 
+    # -------------------
+    print("\nStarting Phase 2: Parsing...\n")
+
+    description_file = project_dir / "source" / "description.txt"
+
+    tracks = parse_description(description_file)
+
+    tracks_file = project_dir / "tracks.json"
+    write_tracks_json(tracks, tracks_file)
+
+    print(f"Found {len(tracks)} tracks")
+    print(f"Tracks written to: {tracks_file}")
+
+    print("\nPhase 2 complete.")
 
 
 if __name__ == "__main__":
