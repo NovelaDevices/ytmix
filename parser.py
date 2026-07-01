@@ -33,7 +33,6 @@ def parse_description(description_path: Path):
 
     text = description_path.read_text(encoding="utf-8", errors="ignore")
     lines = text.splitlines()
-    title = re.sub(r"^\s*[—\-–]\s*", "", title)
 
     index = 1
 
@@ -43,7 +42,10 @@ def parse_description(description_path: Path):
             continue
 
         raw_ts = match.group("raw")
-        title = match.group("title").strip().lstrip("]- ").strip()
+        title = match.group("title").strip()
+
+        # normalize leading dash variants (Dataset 3 fix)
+        title = re.sub(r"^\s*[—\-–]\s*", "", title).lstrip("]- ").strip()
 
         # very naive artist split (optional, best-effort only)
         artist = None
