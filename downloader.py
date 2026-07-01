@@ -36,3 +36,36 @@ def download_youtube_assets(url: str, output_dir: Path) -> None:
     ]
 
     subprocess.run(cmd, check=True)
+
+from .utils import find_latest_file
+import shutil
+
+def normalize_downloads(output_dir: Path) -> None:
+    """
+    Rename yt-dlp outputs into clean canonical filenames.
+    """
+
+    # Audio (m4a)
+    audio = find_latest_file(output_dir, "*.m4a")
+    if audio:
+        audio.rename(output_dir / "audio.m4a")
+
+    # Info JSON
+    info = find_latest_file(output_dir, "*.info.json")
+    if info:
+        info.rename(output_dir / "info.json")
+
+    # Description
+    desc = find_latest_file(output_dir, "*.description")
+    if desc:
+        desc.rename(output_dir / "description.txt")
+
+    # Thumbnail (varies: webp/jpg/png)
+    thumb = (
+        find_latest_file(output_dir, "*.webp")
+        or find_latest_file(output_dir, "*.jpg")
+        or find_latest_file(output_dir, "*.png")
+    )
+    if thumb:
+        suffix = thumb.suffix
+        thumb.rename(output_dir / f"thumbnail{suffix}")
