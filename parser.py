@@ -30,28 +30,31 @@ def parse_description(description_path: Path):
     """
 
     tracks = []
-text = description_path.read_text(encoding="utf-8", errors="ignore")
-lines = text.splitlines()
+    
+    text = description_path.read_text(encoding="utf-8", errors="ignore")
+    lines = text.splitlines()
 
-index = 1
+    index = 1
 
-for line in lines:
-    match = TIMESTAMP_LINE.search(line)
-    if not match:
-        continue
+    for line in lines:
+        match = TIMESTAMP_LINE.search(line)
+        if not match:
+            continue
 
-    raw_ts = match.group("raw")
+        raw_ts = match.group("raw")
 
-    # EVERYTHING after timestamp is preserved verbatim
-    label = line.split(raw_ts, 1)[-1].strip()
+        # EVERYTHING after timestamp is preserved verbatim
+        label = line.split(raw_ts, 1)[-1].strip()
 
-    tracks.append(
-        {
-            "index": index,
-            "start": timestamp_to_seconds(raw_ts),
-            "timestamp": raw_ts,
-            "label": label
-        }
-    )
+        tracks.append(
+            {
+                "index": index,
+                "start": timestamp_to_seconds(raw_ts),
+                "timestamp": raw_ts,
+                "label": label
+            }
+        )
 
-    index += 1
+        index += 1
+        
+   return tracks
