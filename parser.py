@@ -27,13 +27,13 @@ def parse_description(description_path: Path):
     - extracts timestamp lines only
     - ignores everything else
     - returns structured track list
-    title = re.sub(r"^\s*[—\-–]\s*", "", title)
     """
 
     tracks = []
 
     text = description_path.read_text(encoding="utf-8", errors="ignore")
     lines = text.splitlines()
+    title = re.sub(r"^\s*[—\-–]\s*", "", title)
 
     index = 1
 
