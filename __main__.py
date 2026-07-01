@@ -3,6 +3,7 @@ import os
 import re
 from pathlib import Path
 from urllib.parse import urlparse
+from ytmix.downloader import download_youtube_assets
 
 
 YOUTUBE_REGEX = re.compile(
@@ -32,6 +33,16 @@ def safe_folder_name(url: str) -> str:
 
     return "ytmix_output"
 
+    print("\nStarting Phase 1: Acquisition...\n")
+
+    try:
+        download_youtube_assets(url, project_dir / "source")
+    except subprocess.CalledProcessError:
+        print("Error: yt-dlp download failed")
+        sys.exit(1)
+
+    print("\nPhase 1 complete.")
+    print(f"Assets stored in: {project_dir / 'source'}")
 
 def create_project_structure(base_dir: Path) -> None:
     (base_dir / "source").mkdir(parents=True, exist_ok=True)
