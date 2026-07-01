@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 TIMESTAMP_LINE = re.compile(
-    r"(?P<raw>(\d{1,2}:)?\d{1,2}:\d{2})\s*[-\[\|\)]*\s*(?P<title>.+)"
+    r"^\s*(?P<raw>(\d{1,2}:)?\d{1,2}:\d{2})\s*\]?\s*(?P<title>.+?)\s*$"
 )
 
 
