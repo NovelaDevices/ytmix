@@ -33,17 +33,6 @@ def safe_folder_name(url: str) -> str:
 
     return "ytmix_output"
 
-    print("\nStarting Phase 1: Acquisition...\n")
-
-    try:
-        download_youtube_assets(url, project_dir / "source")
-    except subprocess.CalledProcessError:
-        print("Error: yt-dlp download failed")
-        sys.exit(1)
-
-    print("\nPhase 1 complete.")
-    print(f"Assets stored in: {project_dir / 'source'}")
-
 def create_project_structure(base_dir: Path) -> None:
     (base_dir / "source").mkdir(parents=True, exist_ok=True)
     (base_dir / "output").mkdir(parents=True, exist_ok=True)
@@ -62,7 +51,9 @@ def main():
 
     folder_name = safe_folder_name(url)
     project_dir = Path.cwd() / folder_name
-
+    # -------------------
+    # Phase 0
+    # -------------------
     if project_dir.exists():
         print(f"Project already exists: {project_dir}")
     else:
@@ -72,6 +63,19 @@ def main():
     print("\nPhase 0 complete.")
     print(f"URL: {url}")
     print(f"Project directory: {project_dir}")
+    # -------------------
+    # Phase 1 
+    # -------------------
+    print("\nStarting Phase 1: Acquisition...\n")
+
+    try:
+        download_youtube_assets(url, project_dir / "source")
+    except subprocess.CalledProcessError:
+        print("Error: yt-dlp download failed")
+        sys.exit(1)
+
+    print("\nPhase 1 complete.")
+    print(f"Assets stored in: {project_dir / 'source'}")
 
 
 if __name__ == "__main__":
