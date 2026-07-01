@@ -42,6 +42,7 @@ def parse_description(description_path: Path):
             continue
 
         raw_ts = match.group("raw")
+        title = re.sub(r"^\s*[—\-–]\s*", "", title)
         title = match.group("title").strip().lstrip("]- ").strip()
 
         # very naive artist split (optional, best-effort only)
